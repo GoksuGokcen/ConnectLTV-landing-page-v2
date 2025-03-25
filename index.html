@@ -6,6 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ConnectLTV</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    async function submitEmailToSheet(event) {
+      event.preventDefault();
+      const email = event.target.email.value;
+      if (!email) return;
+      const formURL = 'https://script.google.com/macros/s/AKfycbwJU_0MO7wTOgEFP_3NgOL6Rrvdlm_glYKWKmRDh8kY4Xpdat9N4_mQleZhvduRGQyO/exec';
+      try {
+        const res = await fetch(formURL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `email=${encodeURIComponent(email)}`
+        });
+        document.getElementById('success-message').classList.remove('hidden');
+        event.target.reset();
+      } catch (err) {
+        alert('Something went wrong. Please try again later.');
+      }
+    }
+  </script>
 </head>
 
 <body class="bg-white text-gray-800">
@@ -17,7 +37,7 @@
         <a href="#features" class="text-gray-700 hover:text-indigo-600 mx-3">Features</a>
         <a href="#about" class="text-gray-700 hover:text-indigo-600 mx-3">About</a>
         <a href="#testimonials" class="text-gray-700 hover:text-indigo-600 mx-3">Testimonials</a>
-        <a href="#contact" class="text-gray-700 hover:text-indigo-600 mx-3">Join</a>
+        
       </nav>
     </div>
   </header>
@@ -28,7 +48,11 @@
       <img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png" alt="Tech network" class="w-40 h-40 mx-auto mb-6 animate-bounce" />
       <h2 class="text-5xl font-extrabold text-indigo-700 mb-4">Tap into the HBS Tech Network</h2>
       <p class="text-lg text-gray-700 mb-6">ConnectLTV instantly links you with HBS Launching Tech Ventures alumni for career advice, startup feedback, go-to-market strategy and more. Just type your query — we’ll connect you to the right alum.</p>
-      <a href="#contact" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-xl text-lg hover:bg-indigo-700 transition">Get Early Access</a>
+      <form onsubmit="submitEmailToSheet(event)" class="flex flex-col sm:flex-row gap-4 justify-center mb-4">
+        <input type="email" name="email" placeholder="Enter your HBS email" class="px-4 py-3 rounded-lg text-gray-800 w-full sm:w-auto" required>
+        <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl text-lg hover:bg-indigo-700 transition">Join Waitlist</button>
+      </form>
+      <p id="success-message" class="hidden text-green-600 font-semibold pt-2">Thank you! Your email has been recorded.</p>
     </div>
   </section>
 
@@ -79,18 +103,6 @@
           <p class="text-indigo-700 font-semibold">— Alina M., MBA '20, Tech Executive</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="py-20 bg-indigo-700 text-white">
-    <div class="max-w-3xl mx-auto px-6 text-center">
-      <h3 class="text-3xl font-bold mb-4">Ready to Connect?</h3>
-      <p class="mb-6 text-lg">Be the first to access the network, get matched with alumni, and shape the future of the HBS tech community.</p>
-      <form class="flex flex-col sm:flex-row gap-4 justify-center">
-        <input type="email" placeholder="Enter your HBS email" class="px-4 py-3 rounded-lg text-gray-800 w-full sm:w-auto" required>
-        <button class="bg-white text-indigo-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">Join Waitlist</button>
-      </form>
     </div>
   </section>
 
